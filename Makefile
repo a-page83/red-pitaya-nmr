@@ -110,9 +110,15 @@ initrd.dtb: tmp/$(NAME).tree/system-top.dts
 rootfs.dtb: tmp/$(NAME).tree/system-top.dts
 	dtc -I dts -O dtb -o $@ -i tmp/$(NAME).tree -i dts dts/rootfs.dts
 
-tmp/cores/%: cores/%.v
+tmp/cores/%: cores/cores_demin%.v
 	mkdir -p $(@D)
-	$(VIVADO) -source scripts/core.tcl -tclargs $* $(PART)
+	$(VIVADO) -source scripts/core_demin.tcl -tclargs $* $(PART)
+
+
+tmp/cores/%: cores/cores_page%.v
+	mkdir -p $(@D)
+	$(VIVADO) -source scripts/core_page.tcl -tclargs $* $(PART)
+
 
 tmp/%.xpr: projects/% $(addprefix tmp/, $(CORES))
 	mkdir -p $(@D)
