@@ -5,9 +5,9 @@ set part_name [lindex $argv 1]
 
 file delete -force tmp/cores/$core_name tmp/cores/$core_name.cache tmp/cores/$core_name.hw tmp/cores/$core_name.ip_user_files tmp/cores/$core_name.sim tmp/cores/$core_name.xpr
 
-create_project -part $part_name $core_name tmp/cores
+create_project -part $part_name $core_name tmp/cores/cores_page
 
-add_files -norecurse cores/$core_name.v
+add_files -norecurse cores/cores_page/$core_name.v
 
 set_property TOP $core_name [current_fileset]
 
@@ -23,9 +23,9 @@ set core [ipx::current_core]
 set_property VERSION {1.0} $core
 set_property NAME $core_name $core
 set_property LIBRARY {user} $core
-set_property VENDOR {pavel-demin} $core
-set_property VENDOR_DISPLAY_NAME {Pavel Demin} $core
-set_property COMPANY_URL {https://github.com/pavel-demin/red-pitaya-notes} $core
+set_property VENDOR {page} $core
+set_property VENDOR_DISPLAY_NAME {Adrien Page} $core
+set_property COMPANY_URL {} $core
 set_property SUPPORTED_FAMILIES {zynq Production} $core
 
 ipx::create_xgui_files $core

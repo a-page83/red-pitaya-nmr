@@ -12,8 +12,12 @@ NAME = led_blinker
 PART = xc7z010clg400-1
 PROC = ps7_cortexa9_0
 
-FILES = $(wildcard cores/*.v)
-CORES = $(FILES:.v=)
+FILES_DEMIN = $(wildcard cores/cores_demin/*.v)
+FILES_PAGE  = $(wildcard cores/cores_page/*.v)
+
+CORES = $(FILES_DEMIN:cores/cores_demin/%.v=cores_demin/%) \
+        $(FILES_PAGE:cores/cores_page/%.v=cores_page/%)
+
 
 VIVADO = vivado -nolog -nojournal -mode batch
 XSCT = xsct
@@ -110,15 +114,15 @@ initrd.dtb: tmp/$(NAME).tree/system-top.dts
 rootfs.dtb: tmp/$(NAME).tree/system-top.dts
 	dtc -I dts -O dtb -o $@ -i tmp/$(NAME).tree -i dts dts/rootfs.dts
 
-tmp/cores/%: cores/cores_demin%.v
+tmp/cores/cores_demin/%: cores/cores_demin/%.v
 	mkdir -p $(@D)
 	$(VIVADO) -source scripts/core_demin.tcl -tclargs $* $(PART)
+	touch $@
 
-
-tmp/cores/%: cores/cores_page%.v
+tmp/cores_page/%: cores/cores_page/%.v
 	mkdir -p $(@D)
 	$(VIVADO) -source scripts/core_page.tcl -tclargs $* $(PART)
-
+	touch $@
 
 tmp/%.xpr: projects/% $(addprefix tmp/, $(CORES))
 	mkdir -p $(@D)
