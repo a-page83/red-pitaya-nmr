@@ -114,7 +114,7 @@ initrd.dtb: tmp/$(NAME).tree/system-top.dts
 rootfs.dtb: tmp/$(NAME).tree/system-top.dts
 	dtc -I dts -O dtb -o $@ -i tmp/$(NAME).tree -i dts dts/rootfs.dts
 
-tmp/cores/cores_demin/%: cores/cores_demin/%.v
+tmp/cores_demin/%: cores/cores_demin/%.v
 	mkdir -p $(@D)
 	$(VIVADO) -source scripts/core_demin.tcl -tclargs $* $(PART)
 	touch $@
@@ -148,8 +148,10 @@ tmp/%.tree/system-top.dts: tmp/%.xsa $(DTREE_DIR)
 	$(XSCT) scripts/devicetree.tcl $* $(PROC) $(DTREE_DIR)
 	sed -i 's|#include|/include/|' $@
 
-clean:
-	$(RM) zImage.bin initrd.bin boot.bin boot-rootfs.bin initrd.dtb rootfs.dtb tmp
+	
+# add tmp at the end of the line to delete everything 
+clean: 
+	$(RM) zImage.bin initrd.bin boot.bin boot-rootfs.bin initrd.dtb rootfs.dtb tmp/cores tmp/cores_demin tmp/cores_page
 	$(RM) .Xil usage_statistics_webtalk.html usage_statistics_webtalk.xml
 	$(RM) vivado*.jou vivado*.log
 	$(RM) webtalk*.jou webtalk*.log

@@ -1,0 +1,724 @@
+mkdir -p tmp
+vivado -nolog -nojournal -mode batch -source scripts/project.tcl -tclargs pulsed_nmr xc7z010clg400-1
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Mon Nov  3 16:27:05 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source scripts/project.tcl
+# package require fileutil
+# set project_name [lindex $argv 0]
+# set part_name [lindex $argv 1]
+# file delete -force tmp/$project_name.cache tmp/$project_name.gen tmp/$project_name.hw tmp/$project_name.ip_user_files tmp/$project_name.runs tmp/$project_name.sim tmp/$project_name.srcs tmp/$project_name.xpr
+# create_project -part $part_name $project_name tmp
+# set_property IP_REPO_PATHS tmp/cores [current_project]
+# update_ip_catalog
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/page/red-pitaya-nmr/tmp/cores'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/2025.1/Vivado/data/ip'.
+# proc wire {name1 name2} {
+#   set port1 [get_bd_pins $name1]
+#   set port2 [get_bd_pins $name2]
+#   if {[llength $port1] == 1 && [llength $port2] == 1} {
+#     connect_bd_net $port1 $port2
+#     return
+#   }
+#   set port1 [get_bd_intf_pins $name1]
+#   set port2 [get_bd_intf_pins $name2]
+#   if {[llength $port1] == 1 && [llength $port2] == 1} {
+#     connect_bd_intf_net $port1 $port2
+#     return
+#   }
+#   error "** ERROR: can't connect $name1 and $name2"
+# }
+# proc cell {cell_vlnv cell_name {cell_props {}} {cell_ports {}}} {
+#   set cell [create_bd_cell -type ip -vlnv $cell_vlnv $cell_name]
+#   set prop_list {}
+#   foreach {prop_name prop_value} [uplevel 1 [list subst $cell_props]] {
+#     lappend prop_list CONFIG.$prop_name $prop_value
+#   }
+#   if {[llength $prop_list] > 1} {
+#     set_property -dict $prop_list $cell
+#   }
+#   foreach {local_name remote_name} [uplevel 1 [list subst $cell_ports]] {
+#     wire $cell_name/$local_name $remote_name
+#   }
+# }
+# proc module {module_name module_body {module_ports {}}} {
+#   set instance [current_bd_instance .]
+#   current_bd_instance [create_bd_cell -type hier $module_name]
+#   eval $module_body
+#   current_bd_instance $instance
+#   foreach {local_name remote_name} [uplevel 1 [list subst $module_ports]] {
+#     wire $module_name/$local_name $remote_name
+#   }
+# }
+# proc design {design_name design_body} {
+#   set design [current_bd_design]
+#   create_bd_design $design_name
+#   eval $design_body
+#   validate_bd_design
+#   save_bd_design
+#   current_bd_design $design
+# }
+# proc container {container_name container_designs {container_ports {}}} {
+#   set reference [lindex $container_designs 0]
+#   set container [create_bd_cell -type container -reference $reference $container_name]
+#   foreach {local_name remote_name} [uplevel 1 [list subst $container_ports]] {
+#     wire $container_name/$local_name $remote_name
+#   }
+#   set list {}
+#   foreach item $container_designs {
+#     lappend list $item.bd
+#   }
+#   set list [join $list :]
+#   set_property CONFIG.ENABLE_DFX true $container
+#   set_property CONFIG.LIST_SYNTH_BD $list $container
+#   set_property CONFIG.LIST_SIM_BD $list $container
+# }
+# proc addr {offset range port master} {
+#   set object [get_bd_intf_pins $port]
+#   set segment [get_bd_addr_segs -of_objects $object]
+#   set config [list Master $master Clk Auto]
+#   apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config $config $object
+#   assign_bd_address -offset $offset -range $range $segment
+# }
+# create_bd_design system
+Wrote  : </home/page/red-pitaya-nmr/tmp/pulsed_nmr.srcs/sources_1/bd/system/system.bd> 
+# source cfg/ports.tcl
+## create_bd_port -dir I -from 15 -to 0 adc_dat_a_i
+## create_bd_port -dir I -from 15 -to 0 adc_dat_b_i
+## create_bd_port -dir I adc_clk_p_i
+## create_bd_port -dir I adc_clk_n_i
+## create_bd_port -dir O adc_enc_p_o
+## create_bd_port -dir O adc_enc_n_o
+## create_bd_port -dir O adc_csn_o
+## create_bd_port -dir O -from 13 -to 0 dac_dat_o
+## create_bd_port -dir O dac_clk_o
+## create_bd_port -dir O dac_rst_o
+## create_bd_port -dir O dac_sel_o
+## create_bd_port -dir O dac_wrt_o
+## create_bd_port -dir O -from 3 -to 0 dac_pwm_o
+## create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 Vp_Vn
+## create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 Vaux0
+## create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 Vaux1
+## create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 Vaux9
+## create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:diff_analog_io_rtl:1.0 Vaux8
+## create_bd_port -dir IO -from 7 -to 0 exp_p_tri_io
+## create_bd_port -dir IO -from 7 -to 0 exp_n_tri_io
+## create_bd_port -dir O -from 7 -to 0 led_o
+# source projects/$project_name/block_design.tcl
+## cell xilinx.com:ip:clk_wiz pll_0 {
+##   PRIMITIVE PLL
+##   PRIM_IN_FREQ.VALUE_SRC USER
+##   PRIM_IN_FREQ 125.0
+##   PRIM_SOURCE Differential_clock_capable_pin
+##   CLKOUT1_USED true
+##   CLKOUT1_REQUESTED_OUT_FREQ 125.0
+##   CLKOUT2_USED true
+##   CLKOUT2_REQUESTED_OUT_FREQ 250.0
+##   CLKOUT2_REQUESTED_PHASE 157.5
+##   CLKOUT3_USED true
+##   CLKOUT3_REQUESTED_OUT_FREQ 250.0
+##   CLKOUT3_REQUESTED_PHASE 202.5
+##   USE_RESET false
+## } {
+##   clk_in1_p adc_clk_p_i
+##   clk_in1_n adc_clk_n_i
+## }
+INFO: [Device 21-403] Loading part xc7z010clg400-1
+WARNING: [BD 41-1306] The connection to interface pin </pll_0/clk_in1_p> is being overridden by the user with net <adc_clk_p_i_1>. This pin will not be connected as a part of interface connection <CLK_IN1_D>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </pll_0/clk_in1_n> is being overridden by the user with net <adc_clk_n_i_1>. This pin will not be connected as a part of interface connection <CLK_IN1_D>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+## cell xilinx.com:ip:processing_system7 ps_0 {
+##   PCW_IMPORT_BOARD_PRESET cfg/red_pitaya.xml
+## } {
+##   M_AXI_GP0_ACLK pll_0/clk_out1
+## }
+INFO: [PS7-1] Applying Custom Preset cfg/red_pitaya.xml...
+## apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {
+##   make_external {FIXED_IO, DDR}
+##   Master Disable
+##   Slave Disable
+## } [get_bd_cells ps_0]
+## cell xilinx.com:ip:xlconstant const_0
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconstant:1.0 for the IP type xilinx.com:ip:xlconstant:1.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconstant:1.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+## cell xilinx.com:ip:proc_sys_reset rst_0 {} {
+##   ext_reset_in const_0/dout
+##   dcm_locked pll_0/locked
+##   slowest_sync_clk pll_0/clk_out1
+## }
+## delete_bd_objs [get_bd_ports exp_p_tri_io]
+## create_bd_port -dir O -from 7 -to 0 exp_p_tri_io
+## delete_bd_objs [get_bd_ports exp_n_tri_io]
+## create_bd_port -dir O -from 7 -to 0 exp_n_tri_io
+## cell xilinx.com:ip:xlconcat concat_0 {
+##   NUM_PORTS 2
+##   IN0_WIDTH 1
+##   IN1_WIDTH 7
+## } {
+##   dout exp_n_tri_io
+## }
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+## cell pavel-demin:user:axis_red_pitaya_adc adc_0 {
+##   ADC_DATA_WIDTH 14
+## } {
+##   aclk pll_0/clk_out1
+##   adc_dat_a adc_dat_a_i
+##   adc_dat_b adc_dat_b_i
+##   adc_csn adc_csn_o
+## }
+## cell pavel-demin:user:axis_red_pitaya_dac dac_0 {
+##   DAC_DATA_WIDTH 14
+## } {
+##   aclk pll_0/clk_out1
+##   ddr_clk pll_0/clk_out2
+##   wrt_clk pll_0/clk_out3
+##   locked pll_0/locked
+##   dac_clk dac_clk_o
+##   dac_rst dac_rst_o
+##   dac_sel dac_sel_o
+##   dac_wrt dac_wrt_o
+##   dac_dat dac_dat_o
+## }
+## cell pavel-demin:user:axi_hub hub_0 {
+##   CFG_DATA_WIDTH 128
+##   STS_DATA_WIDTH 32
+## } {
+##   S_AXI ps_0/M_AXI_GP0
+##   aclk pll_0/clk_out1
+##   aresetn rst_0/peripheral_aresetn
+## }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins hub_0/S_AXI'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins ps_0/M_AXI_GP0'
+## cell pavel-demin:user:port_slicer rst_slice_0 {
+##   DIN_WIDTH 128 DIN_FROM 7 DIN_TO 0
+## } {
+##   din hub_0/cfg_data
+## }
+## cell pavel-demin:user:port_slicer cfg_slice_0 {
+##   DIN_WIDTH 128 DIN_FROM 95 DIN_TO 32
+## } {
+##   din hub_0/cfg_data
+## }
+## module rx_0 {
+##   source projects/pulsed_nmr/rx.tcl
+## } {
+##   slice_0/din rst_slice_0/dout
+##   slice_1/din rst_slice_0/dout
+##   slice_2/din cfg_slice_0/dout
+##   slice_3/din cfg_slice_0/dout
+##   slice_4/din cfg_slice_0/dout
+## }
+### cell pavel-demin:user:port_slicer slice_0 {
+###   DIN_WIDTH 8 DIN_FROM 0 DIN_TO 0
+### }
+### cell pavel-demin:user:port_slicer slice_1 {
+###   DIN_WIDTH 8 DIN_FROM 1 DIN_TO 1
+### }
+### cell pavel-demin:user:port_slicer slice_2 {
+###   DIN_WIDTH 64 DIN_FROM 31 DIN_TO 0
+### }
+### cell pavel-demin:user:port_slicer slice_3 {
+###   DIN_WIDTH 64 DIN_FROM 47 DIN_TO 32
+### }
+### cell pavel-demin:user:port_slicer slice_4 {
+###   DIN_WIDTH 64 DIN_FROM 63 DIN_TO 48
+### }
+### cell pavel-demin:user:axis_constant phase_0 {
+###   AXIS_TDATA_WIDTH 32
+### } {
+###   cfg_data slice_2/dout
+###   aclk /pll_0/clk_out1
+### }
+### cell xilinx.com:ip:dds_compiler dds_0 {
+###   DDS_CLOCK_RATE 125
+###   SPURIOUS_FREE_DYNAMIC_RANGE 138
+###   FREQUENCY_RESOLUTION 0.2
+###   PHASE_INCREMENT Streaming
+###   HAS_ARESETN true
+###   HAS_PHASE_OUT false
+###   PHASE_WIDTH 30
+###   OUTPUT_WIDTH 24
+###   DSP48_USE Minimal
+###   NEGATIVE_SINE true
+### } {
+###   S_AXIS_PHASE phase_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn slice_1/dout
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins dds_0/S_AXIS_PHASE'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins phase_0/M_AXIS'
+### cell xilinx.com:ip:xlconstant const_0
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconstant:1.0 for the IP type xilinx.com:ip:xlconstant:1.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconstant:1.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+### for {set i 0} {$i <= 1} {incr i} {
+### 
+###   # Create port_slicer
+###   cell pavel-demin:user:port_slicer dds_slice_$i {
+###     DIN_WIDTH 48 DIN_FROM [expr 24 * $i + 23] DIN_TO [expr 24 * $i]
+###   } {
+###     din dds_0/m_axis_data_tdata
+###   }
+### 
+### }
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/dds_0/m_axis_data_tdata> is being overridden by the user with net <dds_0_m_axis_data_tdata>. This pin will not be connected as a part of interface connection <M_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+### for {set i 0} {$i <= 3} {incr i} {
+### 
+###   # Create port_slicer
+###   cell pavel-demin:user:port_slicer adc_slice_$i {
+###     DIN_WIDTH 32 DIN_FROM [expr 16 * ($i / 2) + 13] DIN_TO [expr 16 * ($i / 2)]
+###   } {
+###     din /adc_0/m_axis_tdata
+###   }
+### 
+###   # Create dsp48
+###   cell pavel-demin:user:dsp48 mult_$i {
+###     A_WIDTH 24
+###     B_WIDTH 14
+###     P_WIDTH 24
+###   } {
+###     A dds_slice_[expr $i % 2]/dout
+###     B adc_slice_$i/dout
+###     CLK /pll_0/clk_out1
+###   }
+### 
+###   # Create axis_variable
+###   cell pavel-demin:user:axis_variable rate_$i {
+###     AXIS_TDATA_WIDTH 16
+###   } {
+###     cfg_data slice_3/dout
+###     aclk /pll_0/clk_out1
+###     aresetn /rst_0/peripheral_aresetn
+###   }
+### 
+###   # Create cic_compiler
+###   cell xilinx.com:ip:cic_compiler cic_$i {
+###     INPUT_DATA_WIDTH.VALUE_SRC USER
+###     FILTER_TYPE Decimation
+###     NUMBER_OF_STAGES 6
+###     SAMPLE_RATE_CHANGES Programmable
+###     MINIMUM_RATE 50
+###     MAXIMUM_RATE 5000
+###     FIXED_OR_INITIAL_RATE 250
+###     INPUT_SAMPLE_FREQUENCY 125
+###     CLOCK_FREQUENCY 125
+###     INPUT_DATA_WIDTH 24
+###     QUANTIZATION Truncation
+###     OUTPUT_DATA_WIDTH 32
+###     USE_XTREME_DSP_SLICE false
+###     HAS_DOUT_TREADY true
+###     HAS_ARESETN true
+###   } {
+###     s_axis_data_tdata mult_$i/P
+###     s_axis_data_tvalid const_0/dout
+###     S_AXIS_CONFIG rate_$i/M_AXIS
+###     aclk /pll_0/clk_out1
+###     aresetn /rst_0/peripheral_aresetn
+###   }
+### 
+### }
+WARNING: [BD 41-1306] The connection to interface pin </adc_0/m_axis_tdata> is being overridden by the user with net <adc_0_m_axis_tdata>. This pin will not be connected as a part of interface connection <m_axis>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_0/s_axis_data_tdata> is being overridden by the user with net <mult_0_P>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_0/s_axis_data_tvalid> is being overridden by the user with net <const_0_dout>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_0/S_AXIS_CONFIG'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins rate_0/M_AXIS'
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_1/s_axis_data_tdata> is being overridden by the user with net <mult_1_P>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_1/s_axis_data_tvalid> is being overridden by the user with net </rx_0/const_0_dout>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_1/S_AXIS_CONFIG'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins rate_1/M_AXIS'
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_2/s_axis_data_tdata> is being overridden by the user with net <mult_2_P>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_2/s_axis_data_tvalid> is being overridden by the user with net </rx_0/const_0_dout>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_2/S_AXIS_CONFIG'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins rate_2/M_AXIS'
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_3/s_axis_data_tdata> is being overridden by the user with net <mult_3_P>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </rx_0/cic_3/s_axis_data_tvalid> is being overridden by the user with net </rx_0/const_0_dout>. This pin will not be connected as a part of interface connection <S_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_3/S_AXIS_CONFIG'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins rate_3/M_AXIS'
+### cell  xilinx.com:ip:axis_combiner comb_0 {
+###   TDATA_NUM_BYTES.VALUE_SRC USER
+###   TDATA_NUM_BYTES 4
+###   NUM_SI 4
+### } {
+###   S00_AXIS cic_0/M_AXIS_DATA
+###   S01_AXIS cic_1/M_AXIS_DATA
+###   S02_AXIS cic_2/M_AXIS_DATA
+###   S03_AXIS cic_3/M_AXIS_DATA
+###   aclk /pll_0/clk_out1
+###   aresetn /rst_0/peripheral_aresetn
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/S00_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_0/M_AXIS_DATA'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/S01_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_1/M_AXIS_DATA'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/S02_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_2/M_AXIS_DATA'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/S03_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins cic_3/M_AXIS_DATA'
+### cell xilinx.com:ip:axis_dwidth_converter conv_0 {
+###   S_TDATA_NUM_BYTES.VALUE_SRC USER
+###   S_TDATA_NUM_BYTES 16
+###   M_TDATA_NUM_BYTES 4
+### } {
+###   S_AXIS comb_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn /rst_0/peripheral_aresetn
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins conv_0/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/M_AXIS'
+### cell xilinx.com:ip:fir_compiler fir_0 {
+###   DATA_WIDTH.VALUE_SRC USER
+###   DATA_WIDTH 32
+###   COEFFICIENTVECTOR {-2.6223975147e-08, -1.4569956509e-08, 2.3540215190e-08, 9.9051929398e-09, -1.1896072055e-08, 3.6950405480e-09, -1.1333150258e-08, -3.0448508288e-08, 4.8781647725e-08, 7.5481763873e-08, -1.0298815106e-07, -1.4488424258e-07, 1.7622174448e-07, 2.4569793005e-07, -2.7030344622e-07, -3.8587441897e-07, 3.8640046384e-07, 5.7416592111e-07, -5.2482810107e-07, -8.1997306835e-07, 6.8484024917e-07, 1.1331207426e-06, -8.6443798588e-07, -1.5235772828e-06, 1.0601836469e-06, 2.0010842274e-06, -1.2670663181e-06, -2.5747279793e-06, 1.4783917311e-06, 3.2523587640e-06, -1.6859574973e-06, -4.0403807108e-06, 1.8796340322e-06, 4.9426285733e-06, -2.0479591531e-06, -5.9600331028e-06, 2.1782122735e-06, 7.0898683577e-06, -2.2568114973e-06, -8.3250945608e-06, 2.2697626172e-06, 9.6536292817e-06, -2.2033408353e-06, -1.1057751343e-05, 2.0448379988e-06, 1.2513521979e-05, -1.7834895045e-06, -1.3990359975e-05, 1.4114510856e-06, 1.5450651816e-05, -9.2497442132e-07, -1.6849581088e-05, 3.2556588902e-07, 1.8134732541e-05, 3.7766942049e-07, -1.9248109048e-05, -1.1690617612e-06, 2.0123999965e-05, 2.0226665164e-06, -2.0691419936e-05, -2.9018521966e-06, 2.0874801174e-05, 3.7579412454e-06, -2.0595442210e-05, -4.5292477980e-06, 1.9773000201e-05, 5.1400078013e-06, -1.8327587209e-05, -5.4998104331e-06, 1.6181989804e-05, 5.5032225338e-06, -1.3264321202e-05, -5.0300486655e-06, 9.5106136471e-06, 3.9458131621e-06, -4.8677379288e-06, -2.1031222333e-06, -7.0502020230e-07, -6.6036614168e-07, 7.2264716239e-06, 4.5110092647e-06, -1.4700007565e-05, -9.6248102931e-06, 2.3104562873e-05, 1.6180461718e-05, -3.2393269443e-05, -2.4355426444e-05, 4.2490982800e-05, 3.4320716406e-05, -5.3292843755e-05, -4.6235716733e-05, 6.4662722660e-05, 6.0241834662e-05, -7.6432764290e-05, -7.6455910631e-05, 8.8403373773e-05, 9.4962596036e-05, -1.0034480255e-04, -1.1580684559e-04, 1.1199954637e-04, 1.3898525149e-04, -1.2309011539e-04, -1.6444902550e-04, 1.3330452433e-04, 1.9207002071e-04, -1.4233094372e-04, -2.2165882023e-04, 1.4984643477e-04, 2.5294721919e-04, -1.5552956818e-04, -2.8558245672e-04, 1.5907026350e-04, 3.1912098860e-04, -1.6018183630e-04, -3.5302452068e-04, 1.5861295023e-04, 3.8665618589e-04, -1.5416145897e-04, -4.1927872672e-04, 1.4668853776e-04, 4.5005318883e-04, -1.3613492352e-04, -4.7804009874e-04, 1.2253777401e-04, 5.0220055816e-04, -1.0605913395e-04, -5.2143101700e-04, 8.6950997794e-05, 5.3449959453e-04, -6.5650760177e-05, -5.4012594699e-04, 4.2747418076e-05, 5.3696476255e-04, -1.9009038361e-05, -5.2362169735e-04, -4.6010720489e-06, 4.9866905893e-04, 2.6908139781e-05, -4.6066519491e-04, -4.6512918573e-05, 4.0817392222e-04, 6.1778731721e-05, -3.3978648868e-04, -7.0821078285e-05, 2.5414303331e-04, 7.1496682407e-05, -1.4995560596e-04, -6.1392802404e-05, 2.6027769778e-05, 3.7789097072e-05, 1.1864158633e-04, 2.2098447136e-06, -2.8502285446e-04, -6.1889758159e-05, 4.7384207515e-04, 1.4479565716e-04, -6.8563270057e-04, -2.5476710361e-04, 9.2070739171e-04, 3.9594747007e-04, -1.1791354977e-03, -5.7279565538e-04, 1.4607206689e-03, 7.9009913300e-04, -1.7649830807e-03, -1.0529950420e-03, 2.0911426197e-03, 1.3669985326e-03, -2.4381073573e-03, -1.7380462979e-03, 2.8044661485e-03, 2.1725636774e-03, -3.1884926633e-03, -2.6776376923e-03, 3.5879032894e-03, 3.2607175409e-03, -4.0004135555e-03, -3.9303940831e-03, 4.4231643897e-03, 4.6962015129e-03, -4.8529361836e-03, -5.5689910865e-03, 5.2861135257e-03, 6.5613288532e-03, -5.7186463976e-03, -7.6880329967e-03, 6.1459915709e-03, 8.9669139156e-03, -6.5630240865e-03, -1.0419814264e-02, 6.9638933698e-03, 1.2074085532e-02, -7.3417973058e-03, -1.3964730643e-02, 7.6886293201e-03, 1.6137615852e-02, -7.9944108405e-03, -1.8654706529e-02, 8.2451282043e-03, 2.1599656131e-02, -8.4235196753e-03, -2.5092955278e-02, 8.5029922016e-03, 2.9310618515e-02, -8.4421390542e-03, -3.4521259875e-02, 8.1712426755e-03, 4.1155433296e-02, -7.5624482981e-03, -4.9947030690e-02, 6.3564373770e-03, 6.2251228154e-02, -3.9555566932e-03, -8.0856874259e-02, -1.2811831969e-03, 1.1245868024e-01, 1.5211323321e-02, -1.7730246395e-01, -7.0422828663e-02, 3.6094918604e-01, 6.1533693171e-01, 3.6094918604e-01, -7.0422828663e-02, -1.7730246395e-01, 1.5211323321e-02, 1.1245868024e-01, -1.2811831969e-03, -8.0856874259e-02, -3.9555566932e-03, 6.2251228154e-02, 6.3564373770e-03, -4.9947030690e-02, -7.5624482981e-03, 4.1155433296e-02, 8.1712426755e-03, -3.4521259875e-02, -8.4421390542e-03, 2.9310618515e-02, 8.5029922016e-03, -2.5092955278e-02, -8.4235196753e-03, 2.1599656131e-02, 8.2451282043e-03, -1.8654706529e-02, -7.9944108405e-03, 1.6137615852e-02, 7.6886293201e-03, -1.3964730643e-02, -7.3417973058e-03, 1.2074085532e-02, 6.9638933698e-03, -1.0419814264e-02, -6.5630240865e-03, 8.9669139156e-03, 6.1459915709e-03, -7.6880329967e-03, -5.7186463976e-03, 6.5613288532e-03, 5.2861135257e-03, -5.5689910865e-03, -4.8529361836e-03, 4.6962015129e-03, 4.4231643897e-03, -3.9303940831e-03, -4.0004135555e-03, 3.2607175409e-03, 3.5879032894e-03, -2.6776376923e-03, -3.1884926633e-03, 2.1725636774e-03, 2.8044661485e-03, -1.7380462979e-03, -2.4381073573e-03, 1.3669985326e-03, 2.0911426197e-03, -1.0529950420e-03, -1.7649830807e-03, 7.9009913300e-04, 1.4607206689e-03, -5.7279565538e-04, -1.1791354977e-03, 3.9594747007e-04, 9.2070739171e-04, -2.5476710361e-04, -6.8563270057e-04, 1.4479565716e-04, 4.7384207515e-04, -6.1889758159e-05, -2.8502285446e-04, 2.2098447136e-06, 1.1864158633e-04, 3.7789097072e-05, 2.6027769778e-05, -6.1392802404e-05, -1.4995560596e-04, 7.1496682407e-05, 2.5414303331e-04, -7.0821078285e-05, -3.3978648868e-04, 6.1778731721e-05, 4.0817392222e-04, -4.6512918573e-05, -4.6066519491e-04, 2.6908139781e-05, 4.9866905893e-04, -4.6010720489e-06, -5.2362169735e-04, -1.9009038361e-05, 5.3696476255e-04, 4.2747418076e-05, -5.4012594699e-04, -6.5650760177e-05, 5.3449959453e-04, 8.6950997794e-05, -5.2143101700e-04, -1.0605913395e-04, 5.0220055816e-04, 1.2253777401e-04, -4.7804009874e-04, -1.3613492352e-04, 4.5005318883e-04, 1.4668853776e-04, -4.1927872672e-04, -1.5416145897e-04, 3.8665618589e-04, 1.5861295023e-04, -3.5302452068e-04, -1.6018183630e-04, 3.1912098860e-04, 1.5907026350e-04, -2.8558245672e-04, -1.5552956818e-04, 2.5294721919e-04, 1.4984643477e-04, -2.2165882023e-04, -1.4233094372e-04, 1.9207002071e-04, 1.3330452433e-04, -1.6444902550e-04, -1.2309011539e-04, 1.3898525149e-04, 1.1199954637e-04, -1.1580684559e-04, -1.0034480255e-04, 9.4962596036e-05, 8.8403373773e-05, -7.6455910631e-05, -7.6432764290e-05, 6.0241834662e-05, 6.4662722660e-05, -4.6235716733e-05, -5.3292843755e-05, 3.4320716406e-05, 4.2490982800e-05, -2.4355426444e-05, -3.2393269443e-05, 1.6180461718e-05, 2.3104562873e-05, -9.6248102931e-06, -1.4700007565e-05, 4.5110092647e-06, 7.2264716239e-06, -6.6036614168e-07, -7.0502020230e-07, -2.1031222333e-06, -4.8677379288e-06, 3.9458131621e-06, 9.5106136471e-06, -5.0300486655e-06, -1.3264321202e-05, 5.5032225338e-06, 1.6181989804e-05, -5.4998104331e-06, -1.8327587209e-05, 5.1400078013e-06, 1.9773000201e-05, -4.5292477980e-06, -2.0595442210e-05, 3.7579412454e-06, 2.0874801174e-05, -2.9018521966e-06, -2.0691419936e-05, 2.0226665164e-06, 2.0123999965e-05, -1.1690617612e-06, -1.9248109048e-05, 3.7766942049e-07, 1.8134732541e-05, 3.2556588902e-07, -1.6849581088e-05, -9.2497442132e-07, 1.5450651816e-05, 1.4114510856e-06, -1.3990359975e-05, -1.7834895045e-06, 1.2513521979e-05, 2.0448379988e-06, -1.1057751343e-05, -2.2033408353e-06, 9.6536292817e-06, 2.2697626172e-06, -8.3250945608e-06, -2.2568114973e-06, 7.0898683577e-06, 2.1782122735e-06, -5.9600331028e-06, -2.0479591531e-06, 4.9426285733e-06, 1.8796340322e-06, -4.0403807108e-06, -1.6859574973e-06, 3.2523587640e-06, 1.4783917311e-06, -2.5747279793e-06, -1.2670663181e-06, 2.0010842274e-06, 1.0601836469e-06, -1.5235772828e-06, -8.6443798588e-07, 1.1331207426e-06, 6.8484024917e-07, -8.1997306835e-07, -5.2482810107e-07, 5.7416592111e-07, 3.8640046384e-07, -3.8587441897e-07, -2.7030344622e-07, 2.4569793005e-07, 1.7622174448e-07, -1.4488424258e-07, -1.0298815106e-07, 7.5481763873e-08, 4.8781647725e-08, -3.0448508288e-08, -1.1333150258e-08, 3.6950405480e-09, -1.1896072055e-08, 9.9051929398e-09, 2.3540215190e-08, -1.4569956509e-08, -2.6223975147e-08}
+###   COEFFICIENT_WIDTH 24
+###   QUANTIZATION Quantize_Only
+###   BESTPRECISION true
+###   FILTER_TYPE Decimation
+###   DECIMATION_RATE 2
+###   NUMBER_CHANNELS 4
+###   NUMBER_PATHS 1
+###   SAMPLE_FREQUENCY 2.5
+###   CLOCK_FREQUENCY 125
+###   OUTPUT_ROUNDING_MODE Convergent_Rounding_to_Even
+###   OUTPUT_WIDTH 34
+###   HAS_ARESETN true
+### } {
+###   S_AXIS_DATA conv_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn /rst_0/peripheral_aresetn
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins fir_0/S_AXIS_DATA'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins conv_0/M_AXIS'
+### cell xilinx.com:ip:axis_subset_converter subset_0 {
+###   S_TDATA_NUM_BYTES.VALUE_SRC USER
+###   M_TDATA_NUM_BYTES.VALUE_SRC USER
+###   S_TDATA_NUM_BYTES 5
+###   M_TDATA_NUM_BYTES 4
+###   TDATA_REMAP {tdata[31:0]}
+### } {
+###   S_AXIS fir_0/M_AXIS_DATA
+###   aclk /pll_0/clk_out1
+###   aresetn /rst_0/peripheral_aresetn
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins subset_0/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins fir_0/M_AXIS_DATA'
+### cell xilinx.com:ip:axis_dwidth_converter conv_1 {
+###   S_TDATA_NUM_BYTES.VALUE_SRC USER
+###   S_TDATA_NUM_BYTES 4
+###   M_TDATA_NUM_BYTES 16
+### } {
+###   S_AXIS subset_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn /rst_0/peripheral_aresetn
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins conv_1/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins subset_0/M_AXIS'
+### cell pavel-demin:user:axis_validator vldtr_0 {
+###   AXIS_TDATA_WIDTH 128
+### } {
+###   S_AXIS conv_1/M_AXIS
+###   trg_flag slice_1/dout
+###   aclk /pll_0/clk_out1
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins vldtr_0/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins conv_1/M_AXIS'
+### cell pavel-demin:user:axis_fifo fifo_0 {
+###   S_AXIS_TDATA_WIDTH 128
+###   M_AXIS_TDATA_WIDTH 32
+###   WRITE_DEPTH 4096
+###   ALWAYS_READY TRUE
+### } {
+###   S_AXIS vldtr_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn slice_0/dout
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins fifo_0/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins vldtr_0/M_AXIS'
+### cell pavel-demin:user:dsp48 mult_4 {
+###   A_WIDTH 24
+###   B_WIDTH 16
+###   P_WIDTH 14
+### } {
+###   A dds_slice_0/dout
+###   B slice_4/dout
+###   CLK /pll_0/clk_out1
+### }
+### cell pavel-demin:user:axis_constant output_0 {
+###   AXIS_TDATA_WIDTH 16
+### } {
+###   cfg_data mult_4/P
+###   aclk /pll_0/clk_out1
+### }
+## cell pavel-demin:user:port_slicer rst_slice_1 {
+##   DIN_WIDTH 128 DIN_FROM 15 DIN_TO 8
+## } {
+##   din hub_0/cfg_data
+##   dout exp_p_tri_io
+## }
+## cell pavel-demin:user:port_slicer cfg_slice_1 {
+##   DIN_WIDTH 128 DIN_FROM 127 DIN_TO 96
+## } {
+##   din hub_0/cfg_data
+## }
+## module tx_0 {
+##   source projects/pulsed_nmr/tx.tcl
+## } {
+##   slice_0/din rst_slice_1/dout
+##   slice_1/din rst_slice_0/dout
+##   slice_2/din cfg_slice_1/dout
+##   delay_1/Q concat_0/In0
+## }
+### cell pavel-demin:user:port_slicer slice_0 {
+###   DIN_WIDTH 8 DIN_FROM 0 DIN_TO 0
+### }
+### cell pavel-demin:user:port_slicer slice_1 {
+###   DIN_WIDTH 8 DIN_FROM 1 DIN_TO 1
+### }
+### cell pavel-demin:user:port_slicer slice_2 {
+###   DIN_WIDTH 32 DIN_FROM 31 DIN_TO 0
+### }
+### cell pavel-demin:user:axis_fifo fifo_0 {
+###   S_AXIS_TDATA_WIDTH 32
+###   M_AXIS_TDATA_WIDTH 128
+###   WRITE_DEPTH 16384
+### } {
+###   aclk /pll_0/clk_out1
+###   aresetn slice_0/dout
+### }
+### cell pavel-demin:user:axis_gate_controller gate_0 {} {
+###   S_AXIS fifo_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn slice_1/dout
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins gate_0/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins fifo_0/M_AXIS'
+### cell xilinx.com:ip:xlconcat concat_0 {
+###   NUM_PORTS 2
+###   IN0_WIDTH 32
+###   IN1_WIDTH 32
+### } {
+###   In0 slice_2/dout
+###   In1 gate_0/poff
+### }
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+### cell pavel-demin:user:axis_constant phase_0 {
+###   AXIS_TDATA_WIDTH 64
+### } {
+###   cfg_data concat_0/dout
+###   aclk /pll_0/clk_out1
+### }
+### cell xilinx.com:ip:dds_compiler dds_0 {
+###   DDS_CLOCK_RATE 125
+###   SPURIOUS_FREE_DYNAMIC_RANGE 138
+###   FREQUENCY_RESOLUTION 0.2
+###   PHASE_INCREMENT Streaming
+###   PHASE_OFFSET Streaming
+###   HAS_ARESETN true
+###   HAS_PHASE_OUT false
+###   PHASE_WIDTH 30
+###   OUTPUT_WIDTH 24
+###   DSP48_USE Minimal
+###   OUTPUT_SELECTION Sine
+### } {
+###   S_AXIS_PHASE phase_0/M_AXIS
+###   aclk /pll_0/clk_out1
+###   aresetn slice_1/dout
+### }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins dds_0/S_AXIS_PHASE'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins phase_0/M_AXIS'
+### cell xilinx.com:ip:c_shift_ram delay_0 {
+###   WIDTH.VALUE_SRC USER
+###   WIDTH 16
+###   DEPTH 11
+### } {
+###   D gate_0/level
+###   CLK /pll_0/clk_out1
+### }
+### cell pavel-demin:user:dsp48 mult_0 {
+###   A_WIDTH 24
+###   B_WIDTH 16
+###   P_WIDTH 14
+### } {
+###   A dds_0/m_axis_data_tdata
+###   B delay_0/Q
+###   CLK /pll_0/clk_out1
+### }
+WARNING: [BD 41-1306] The connection to interface pin </tx_0/dds_0/m_axis_data_tdata> is being overridden by the user with net <dds_0_m_axis_data_tdata>. This pin will not be connected as a part of interface connection <M_AXIS_DATA>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+### cell xilinx.com:ip:c_shift_ram delay_1 {
+###   WIDTH.VALUE_SRC USER
+###   WIDTH 1
+###   DEPTH 14
+### } {
+###   D gate_0/dout
+###   CLK /pll_0/clk_out1
+### }
+### cell pavel-demin:user:axis_zeroer zeroer_0 {
+###   AXIS_TDATA_WIDTH 16
+### } {
+###   s_axis_tdata mult_0/P
+###   s_axis_tvalid delay_1/Q
+###   aclk /pll_0/clk_out1
+### }
+WARNING: [BD 41-1306] The connection to interface pin </tx_0/zeroer_0/s_axis_tdata> is being overridden by the user with net <mult_0_P>. This pin will not be connected as a part of interface connection <s_axis>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+WARNING: [BD 41-1306] The connection to interface pin </tx_0/zeroer_0/s_axis_tvalid> is being overridden by the user with net <delay_1_Q>. This pin will not be connected as a part of interface connection <s_axis>, and might not recreate the connectivity as expected using the writ_bd_tcl command.
+## cell  xilinx.com:ip:axis_combiner comb_0 {
+##   TDATA_NUM_BYTES.VALUE_SRC USER
+##   TDATA_NUM_BYTES 2
+##   NUM_SI 2
+## } {
+##   S00_AXIS tx_0/zeroer_0/M_AXIS
+##   S01_AXIS rx_0/output_0/M_AXIS
+##   M_AXIS dac_0/S_AXIS
+##   aclk pll_0/clk_out1
+##   aresetn rst_0/peripheral_aresetn
+## }
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/S00_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins tx_0/zeroer_0/M_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/S01_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins rx_0/output_0/M_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins comb_0/M_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins dac_0/S_AXIS'
+## cell xilinx.com:ip:xlconcat concat_1 {
+##   NUM_PORTS 2
+##   IN0_WIDTH 16
+##   IN1_WIDTH 16
+## } {
+##   In0 rx_0/fifo_0/read_count
+##   In1 tx_0/fifo_0/write_count
+##   dout hub_0/sts_data
+## }
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilconcat:1.0 for the IP type xilinx.com:ip:xlconcat:2.1 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlconcat:2.1 will not be supported from release 2025.2. More information on inline hdl IP is available in UG994 
+## wire rx_0/fifo_0/M_AXIS hub_0/S00_AXIS
+WARNING: [BD 5-235] No pins matched 'get_bd_pins rx_0/fifo_0/M_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins hub_0/S00_AXIS'
+## wire tx_0/fifo_0/S_AXIS hub_0/M00_AXIS
+WARNING: [BD 5-235] No pins matched 'get_bd_pins tx_0/fifo_0/S_AXIS'
+WARNING: [BD 5-235] No pins matched 'get_bd_pins hub_0/M00_AXIS'
+# rename wire {}
+# rename cell {}
+# rename module {}
+# rename design {}
+# rename container {}
+# rename addr {}
+# set system [get_files system.bd]
+# set_property SYNTH_CHECKPOINT_MODE None $system
+# generate_target all $system
+CRITICAL WARNING: [BD 41-1356] Slave segment </hub_0/s_axi/reg0> is not assigned into address space </ps_0/Data>. Please use Address Editor to either assign or exclude it.
+WARNING: [BD 5-699] No address segments matched 'get_bd_addr_segs -of_objects /ps_0/Data'
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter M_TDATA_NUM_BYTES(4) on '/rx_0/subset_0' with propagated value(5). Command ignored
+WARNING: [BD 41-702] Propagation TCL tries to overwrite USER strength parameter M_TDATA_NUM_BYTES(4) on '/rx_0/subset_0' with propagated value(5). Command ignored
+WARNING: [#UNDEF] When using EMIO pins for SPI_0 tie SSIN High in the PL bitstream
+INFO: [xilinx.com:ip:cic_compiler:4.0-913] /rx_0/cic_3 Input_Data_Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+INFO: [xilinx.com:ip:clk_wiz:6.0-1] /pll_0 clk_wiz propagate
+INFO: [xilinx.com:ip:cic_compiler:4.0-913] /rx_0/cic_2 Input_Data_Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+INFO: [xilinx.com:ip:cic_compiler:4.0-913] /rx_0/cic_1 Input_Data_Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+INFO: [xilinx.com:ip:c_shift_ram:12.0-913] /tx_0/delay_1 Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+INFO: [xilinx.com:ip:c_shift_ram:12.0-913] /tx_0/delay_0 Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+INFO: [xilinx.com:ip:fir_compiler:7.2-913] /rx_0/fir_0 Data_Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+INFO: [xilinx.com:ip:cic_compiler:4.0-913] /rx_0/cic_0 Input_Data_Width has been set to manual on the GUI. It will not be updated during validation with a propagated value.
+CRITICAL WARNING: [BD 41-759] The input pins (listed below) are either not connected or do not have a source port, and they don't have a tie-off specified. These pins are tied-off to all 0's to avoid error in Implementation flow.
+Please check your design and connect them as needed: 
+/hub_0/s01_axis_tvalid
+/hub_0/s02_axis_tvalid
+/hub_0/s03_axis_tvalid
+/hub_0/s04_axis_tvalid
+/hub_0/s05_axis_tvalid
+
+Wrote  : </home/page/red-pitaya-nmr/tmp/pulsed_nmr.srcs/sources_1/bd/system/system.bd> 
+CRITICAL WARNING: [BD 41-2383] Width mismatch when connecting input pin '/rx_0/output_0/cfg_data'(16) to pin '/rx_0/mult_4/P'(14) - Only lower order bits will be connected, and other input bits of this pin will be left unconnected.
+CRITICAL WARNING: [BD 41-2383] Width mismatch when connecting input pin '/tx_0/zeroer_0/s_axis_tdata'(16) to pin '/tx_0/mult_0/P'(14) - Only lower order bits will be connected, and other input bits of this pin will be left unconnected.
+Verilog Output written to : /home/page/red-pitaya-nmr/tmp/pulsed_nmr.gen/sources_1/bd/system/synth/system.v
+CRITICAL WARNING: [BD 41-2383] Width mismatch when connecting input pin '/rx_0/output_0/cfg_data'(16) to pin '/rx_0/mult_4/P'(14) - Only lower order bits will be connected, and other input bits of this pin will be left unconnected.
+CRITICAL WARNING: [BD 41-2383] Width mismatch when connecting input pin '/tx_0/zeroer_0/s_axis_tdata'(16) to pin '/tx_0/mult_0/P'(14) - Only lower order bits will be connected, and other input bits of this pin will be left unconnected.
+Verilog Output written to : /home/page/red-pitaya-nmr/tmp/pulsed_nmr.gen/sources_1/bd/system/sim/system.v
+Verilog Output written to : /home/page/red-pitaya-nmr/tmp/pulsed_nmr.gen/sources_1/bd/system/hdl/system_wrapper.v
+INFO: [BD 41-1029] Generation completed for the IP Integrator block pll_0 .
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI_GP0'. A default connection has been created.
+INFO: [BD 41-1029] Generation completed for the IP Integrator block ps_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block const_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block concat_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block adc_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block dac_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block hub_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_slice_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block cfg_slice_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/slice_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/slice_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/slice_2 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/slice_3 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/slice_4 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/phase_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/dds_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/const_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/dds_slice_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/dds_slice_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/adc_slice_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/mult_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/rate_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/cic_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/adc_slice_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/mult_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/rate_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/cic_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/adc_slice_2 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/mult_2 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/rate_2 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/cic_2 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/adc_slice_3 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/mult_3 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/rate_3 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/cic_3 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/comb_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/conv_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/fir_0 .
+WARNING: [IP_Flow 19-4994] Overwriting existing constraint file '/home/page/red-pitaya-nmr/tmp/pulsed_nmr.gen/sources_1/bd/system/ip/system_subset_0_0/system_subset_0_0_ooc.xdc'
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/subset_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/conv_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/vldtr_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/fifo_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/mult_4 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rx_0/output_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_slice_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block cfg_slice_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/slice_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/slice_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/slice_2 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/fifo_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/gate_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/concat_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/phase_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/dds_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/delay_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/mult_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/delay_1 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block tx_0/zeroer_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block comb_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block concat_1 .
+Exporting to file /home/page/red-pitaya-nmr/tmp/pulsed_nmr.gen/sources_1/bd/system/hw_handoff/system.hwh
+Generated Hardware Definition File /home/page/red-pitaya-nmr/tmp/pulsed_nmr.gen/sources_1/bd/system/synth/system.hwdef
+generate_target: Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 2052.648 ; gain = 37.875 ; free physical = 12715 ; free virtual = 18032
+# make_wrapper -files $system -top
+# foreach ext {srcs gen} {
+#   set files [fileutil::findByPattern tmp/$project_name.$ext system_wrapper.v]
+#   if {[llength $files] > 0} {
+#     add_files -norecurse $files
+#     break
+#   }
+# }
+# set_property TOP system_wrapper [current_fileset]
+# set files [glob -nocomplain cfg/*.mem projects/$project_name/*.v projects/$project_name/*.sv]
+# if {[llength $files] > 0} {
+#   add_files -norecurse $files
+# }
+# set files [glob -nocomplain cfg/*.xdc projects/$project_name/*.xdc]
+# if {[llength $files] > 0} {
+#   add_files -norecurse -fileset constrs_1 $files
+# }
+# set_property VERILOG_DEFINE {TOOL_VIVADO} [current_fileset]
+# set_property STRATEGY Flow_PerfOptimized_high [get_runs synth_1]
+# set_property STRATEGY Performance_ExploreWithRemap [get_runs impl_1]
+# close_project
+INFO: [Common 17-206] Exiting Vivado at Mon Nov  3 16:28:50 2025...
