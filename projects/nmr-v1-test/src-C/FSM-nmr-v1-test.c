@@ -12,7 +12,7 @@
 
 int main()
 {
-  int fd, i;
+  int fd;
   volatile uint8_t *rst;
   volatile void    *cfg, *sts;
   volatile int16_t *ram;
@@ -80,7 +80,7 @@ int main()
                 
   
   //amplitude
-  *(uint32_t *)(cfg + 2) = amplitude;
+  *(uint32_t *)(cfg + 2) = amplitude ;
 
   // set writer address
   *(uint32_t *)(cfg + 4) = size; //change the value at the adress cfg + 4 (Jump of 4 Bytes)
@@ -114,11 +114,12 @@ int main()
   printf("fsm_sts = %04x\n", fsm_sts );
   while (((*fsm_sts) & 1) == 0) {
     sleep(2);
+    printf("fsm_sts = %04x\n", fsm_sts );
   }
   printf("fsm_sts = %04x\n", fsm_sts );
   printf("done\n");
   // print IN1 and IN2 samples
-  for(i = 0; i < nb_of_Samples; ++i)
+  for(uint32_t i = 0; i < nb_of_Samples; ++i)
   {
     value[0] = ram[2 * i + 0];
     value[1] = ram[2 * i + 1];

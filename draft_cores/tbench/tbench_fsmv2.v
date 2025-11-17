@@ -60,7 +60,22 @@ initial begin
     
     cfg[1]  = 1'b1; //enable fsm
     #10000
+    cfg             = 96'h0;                
+    cfg[31:16]      = 16'd1024;             //cfg_amplitude      
+    cfg[63:32]      = 32'd1025;             //size_reg
+    cfg[95:64]      = 32'd1026;             //nb_of_sample_reg
+    cfg[127:96]     = 32'd1027;             //cfg_freq     
+    cfg[159:128]    = 32'hc;                //cfg excitation time
+    cfg[192:160]    = 32'hc;                //cfg acquisition time
+
+
+    #100
     
+    cfg[0]  = 1'b1; //reset disabled
+    #100
+    
+    cfg[1]  = 1'b1; //enable fsm
+    #10000
     
     $display("=== FIN DU TEST ===");
   end

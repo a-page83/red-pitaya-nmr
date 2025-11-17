@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 module fsm_read_mem (
     input               clk,
-    input [192:0]       cfg,
+    input      [192:0]  cfg,
     output reg [31:0]   sts, 
     output reg [6:0]    Leds, 
     // Control of the ACQ
@@ -21,16 +21,18 @@ module fsm_read_mem (
     localparam [2:0] SETUP  = 3'b001;
     localparam [2:0] GEN    = 3'b010;
     localparam [2:0] ACQ    = 3'b100;
+    localparam [2:0] DONE   = 3'b111; 
     
     // Internal registers
     reg [2:0]  current_state;
     reg [2:0]  next_state;
+    reg [31:0] sts_next;
     reg [31:0] size_reg;  
     reg [31:0] nb_of_sample_reg;
     reg [31:0] excitation_time;
     reg [31:0] acquisition_time;
     reg [31:0] counter;
-    reg        enable_c;
+    
     
     wire rst_n      = cfg[0];
     wire state_cfg  = cfg[1];
@@ -40,17 +42,23 @@ module fsm_read_mem (
     
     // Sequential logic
     always @(posedge clk) begin 
-        if (!rst_n) begin                          
+        if (!rst_n) 
+        begin                          
             counter       <= 32'd0;
-            current_state <= IDLE;
             sts           <= 32'd0;
+            current_state <= IDLE;
         end 
-        else begin            
-            current_state <= next_state;
-            
-            if (enable_c) begin
-                counter <= counter + 1'b1;
-            end
+        else if (current_state == GEN || current_state == ACQ) 
+        begin
+            counter         <= counter + 32'b1;
+            current_state   <= next_state;
+            sts             <= sts_next;
+        end
+        else
+        begin
+            counter         <= 32'd0;
+            current_state   <= next_state;
+            sts             <= sts_next;
         end
     end
     
@@ -61,17 +69,19 @@ module fsm_read_mem (
         rst_f            = 1'b1;
         rst_pck          = 1'b1;
         en_gen           = 1'b0;
-        enable_c         = 1'b0;
         Leds             = 7'b000;
-        
+        sts_next         = sts;
 
         excitation_time  = cfg[160:128];
         acquisition_time = cfg[192:160];
         
         case (current_state)
-            IDLE: begin
+            IDLE: 
+            begin
                 Leds = 7'b000;
-                if (~sts[0]&&state_cfg) begin
+                
+                if (~sts[0]&&state_cfg) 
+                begin
                     next_state = SETUP;
                 end
                 else begin
@@ -79,18 +89,24 @@ module fsm_read_mem (
                 end              
            end
             
-            SETUP: begin
+            SETUP: 
+            begin
                 Leds       = 7'b001;
                 rst_writer = 1'b0;
-                rst_f      = 1'b0;
+                rst_f       = 1'b0;
+                size_reg         = cfg[63:32];
+                nb_of_sample_reg = cfg[95:64];
+                cfg_amplitude    = cfg[31:16];
+                cfg_freq         = cfg[127:96];
+
                 next_state = GEN;
             end
             
-            GEN: begin
+            GEN: 
+            begin
                 Leds     = 7'b011;
                 en_gen   = 1'b1;  
-                enable_c = 1'b1;
-                
+
                 if (counter >= excitation_time) begin
                     next_state = ACQ;
                     end    
@@ -99,36 +115,27 @@ module fsm_read_mem (
                 end
             end
             
-            ACQ: begin
+            ACQ: 
+            begin
                 Leds     = 7'b111;
-                enable_c = 1'b1;
                 rst_pck  = 1'b0;
                 
-                if (counter >= (acquisition_time + excitation_time)) begin
-                    next_state = IDLE;
+                if (counter >= (acquisition_time + excitation_time)) 
+                begin
+                    next_state  = DONE;
                 end
-                else begin
+                else 
+                begin
                     next_state = ACQ;
-                    sts     = 32'b1;
-                end        
+                end
+            end
+            DONE:
+            begin
+                    Leds        = 7'b111;
+                    sts_next[0] = 1'b1; // Indicate done
+                    next_state  = IDLE;
             end
         endcase
-    end
-    
-    // Configuration registers - update in SETUP state
-    always @(posedge clk) begin
-        if (!rst_n) begin
-            size_reg         <= 32'd0;
-            nb_of_sample_reg <= 32'd0;
-            cfg_amplitude    <= 16'd0;
-            cfg_freq         <= 32'd0;
-        end
-        else if (current_state == SETUP) begin
-            size_reg         <= cfg[63:32];
-            nb_of_sample_reg <= cfg[95:64];
-            cfg_amplitude    <= cfg[31:16];
-            cfg_freq         <= cfg[127:96];
-        end
     end
     
 endmodule
