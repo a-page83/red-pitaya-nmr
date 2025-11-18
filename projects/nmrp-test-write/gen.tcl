@@ -23,7 +23,6 @@ cell pavel-demin:user:axis_zeroer axis_zeroer_0 {
 }
 
 
-
 # Create dds_compiler with phase configuration
 cell xilinx.com:ip:dds_compiler dds_0 {
   DDS_CLOCK_RATE 125
