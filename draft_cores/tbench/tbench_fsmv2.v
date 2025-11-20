@@ -25,19 +25,19 @@ module tb_fsm_read_memv2();
     end
     
     // Instantiate the DUT (Device Under Test)
-    fsm_read_mem dut (
-        .clk(clk),
-        .cfg(cfg),
-        .sts(sts),
-        .Leds(Leds),
-        .rst_writer(rst_writer),
-        .rst_pck(rst_pck),
-        .rst_f(rst_f),
-        .size(size),
-        .nb_of_sample(nb_of_sample),
-        .cfg_amplitude(cfg_amplitude),
-        .cfg_freq(cfg_freq),
-        .en_gen(en_gen)
+    IP_test_wrapper dut (
+        .clk_0(clk),
+        .cfg_0(cfg),
+        .sts_0(sts),
+        .Leds_0(Leds),
+        .rst_writer_0(rst_writer),
+        .rst_pck_0(rst_pck),
+        .rst_f_0(rst_f),
+        .size_0(size),
+        .nb_of_sample_0(nb_of_sample),
+        .cfg_amplitude_0(cfg_amplitude),
+        .cfg_freq_0(cfg_freq),
+        .en_gen_0(en_gen)
     );
 
   // Séquence de test
