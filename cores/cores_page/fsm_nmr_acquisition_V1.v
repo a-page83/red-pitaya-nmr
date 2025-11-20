@@ -65,7 +65,7 @@ module fsm_nmr_acquisition_V1  (
     
     // Combinational logic for next state and outputs
     always @(*) begin
-        // Default values to avoid latches
+        // Default values to avoid latches 
         rst_writer       = 1'b1;
         rst_f            = 1'b1;
         rst_pck          = 1'b1;
