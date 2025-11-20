@@ -97,13 +97,12 @@ int main()
   // acquisition time
   *(uint32_t *)(cfg + 20) = acquisition_time;
 
-  *rst |= 1;
+  *rst |= 1;  
   printf("reset\n");
   *rst &= ~1;
   *rst &= ~2;
   sleep(1);
   *rst |= 1;
-  printf("reset =%04x\n",rst);
   
   sleep(1);
   *rst |= 2;
@@ -111,12 +110,9 @@ int main()
   *rst &= ~2;
 
   printf("waiting...\n");
-  printf("fsm_sts = %04x\n", fsm_sts );
   while (((*fsm_sts) & 1) == 0) {
     sleep(2);
-    printf("fsm_sts = %04x\n", fsm_sts );
   }
-  printf("fsm_sts = %04x\n", fsm_sts );
   printf("done\n");
   // print IN1 and IN2 samples
   for(uint32_t i = 0; i < nb_of_Samples; ++i)

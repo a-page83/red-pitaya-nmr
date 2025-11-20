@@ -2,14 +2,17 @@
 module fsm_read_mem (
     input               clk,
     input      [192:0]  cfg,
+
     output reg [31:0]   sts, 
-    output reg [6:0]    Leds, 
+    output reg [6:0]    Leds,
+
     // Control of the ACQ
     output reg          rst_writer,
     output reg          rst_pck,
     output reg          rst_f,
     output [31:0]       size,
     output [31:0]       nb_of_sample,
+
     // Control of the GEN
     output reg  [15:0]  cfg_amplitude,
     output reg  [31:0]  cfg_freq,       
@@ -91,9 +94,9 @@ module fsm_read_mem (
             
             SETUP: 
             begin
-                Leds       = 7'b001;
-                rst_writer = 1'b0;
-                rst_f       = 1'b0;
+                Leds            = 7'b001;
+                rst_writer      = 1'b0;
+                rst_f           = 1'b0;
                 size_reg         = cfg[63:32];
                 nb_of_sample_reg = cfg[95:64];
                 cfg_amplitude    = cfg[31:16];
