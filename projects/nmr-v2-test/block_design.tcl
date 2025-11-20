@@ -93,7 +93,7 @@ cell pavel-demin:user:axis_red_pitaya_dac dac_0 {
 
 # Create axi_hub
 cell pavel-demin:user:axi_hub hub_0 {
-  CFG_DATA_WIDTH 128
+  CFG_DATA_WIDTH 193
   STS_DATA_WIDTH 32
 } {
   S_AXI ps_0/M_AXI_GP0
@@ -111,7 +111,7 @@ cell xilinx.com:ip:xlconcat concat_0 {
   dout led_o
 }
 
-cell page:user:fsm_nmr_acquisition_V1d fsm_nmr_0 {
+cell page:user:fsm_nmr_acquisition_V1 fsm_nmr_0 {
 } {
   clk pll_0/clk_out1
   cfg hub_0/cfg_data
@@ -119,15 +119,22 @@ cell page:user:fsm_nmr_acquisition_V1d fsm_nmr_0 {
   Leds concat_0/In0
 }
 
+cell pavel-demin:user:port_slicer port_slicer_0 {
+  DIN_WIDTH 193 DIN_FROM 0 DIN_TO 0
+} {
+  din hub_0/cfg_data
+  dout concat_0/IN1
+}
+
 
 module acq_0 {
-  source projects/nmrp-test-write/acq.tcl
+  source projects/nmr-v2-test/acq.tcl
 } {
     writer_0/M_AXI ps_0/S_AXI_ACP
   }
 
 module gen_0 {
-  source projects/nmrp-test-write/gen.tcl
+  source projects/nmr-v2-test/gen.tcl
 
 } {
   

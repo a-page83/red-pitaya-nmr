@@ -9,6 +9,7 @@ cell xilinx.com:ip:axis_broadcaster bcast_0 {
 } {
   S_AXIS /adc_0/M_AXIS
   aclk /pll_0/clk_out1
+  aresetn /fsm_nmr_0/rst_writer
 }
 
 # Create cic_compiler
@@ -27,6 +28,7 @@ cell xilinx.com:ip:cic_compiler cic_0 {
 } {
   S_AXIS_DATA bcast_0/M00_AXIS
   aclk /pll_0/clk_out1
+  aresetn /fsm_nmr_0/rst_writer
 }
 
 # Create cic_compiler
@@ -45,6 +47,7 @@ cell xilinx.com:ip:cic_compiler cic_1 {
 } {
   S_AXIS_DATA bcast_0/M01_AXIS
   aclk /pll_0/clk_out1
+  aresetn /fsm_nmr_0/rst_writer
 }
 
 # Create axis_combiner
@@ -55,6 +58,7 @@ cell  xilinx.com:ip:axis_combiner comb_0 {
   S00_AXIS cic_0/M_AXIS_DATA
   S01_AXIS cic_1/M_AXIS_DATA
   aclk /pll_0/clk_out1
+  aresetn /fsm_nmr_0/rst_writer
 }
 
 # Create axis_packetizer
@@ -66,6 +70,8 @@ cell pavel-demin:user:axis_packetizer pktzr_0 {
 } {
   S_AXIS comb_0/M_AXIS
   aclk /pll_0/clk_out1
+  aresetn /fsm_nmr_0/rst_pck
+  cfg_data /fsm_nmr_0/nb_of_sample
 }
 
 # Create xlconstant
@@ -83,4 +89,7 @@ cell pavel-demin:user:axis_ram_writer writer_0 {
 } {
   S_AXIS pktzr_0/M_AXIS
   aclk /pll_0/clk_out1
+  min_addr /fsm_nmr_0/size
+  cfg_data /fsm_nmr_0/nb_of_sample
+  aresetn /fsm_nmr_0/rst_writer
 }
