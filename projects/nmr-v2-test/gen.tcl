@@ -27,13 +27,14 @@ cell pavel-demin:user:axis_zeroer axis_zeroer_0 {
 # Create dds_compiler with phase configuration
 cell xilinx.com:ip:dds_compiler dds_0 {
   DDS_CLOCK_RATE 125
-  SPURIOUS_FREE_DYNAMIC_RANGE 20
-  NOISE_SHAPING Auto
+  SPURIOUS_FREE_DYNAMIC_RANGE 78
+  NOISE_SHAPING Taylor_Series_Corrected
   PHASE_INCREMENT Programmable
+  Output_Selection Sine
   AMPLITUDE_MODE Full_range
-  FREQUENCY_RESOLUTION 0.4
+  FREQUENCY_RESOLUTION 0.2
   HAS_PHASE_OUT false
-  OUTPUT_WIDTH 16
+  OUTPUT_WIDTH 14
 } {
   aclk /pll_0/clk_out1
 }
@@ -41,18 +42,25 @@ cell xilinx.com:ip:dds_compiler dds_0 {
 # Create multiplication to modify the amplitude
 # The B parameter goes from 0 to 1024 = 0V to 1V
 cell xilinx.com:ip:mult_gen mult_gen_0 {
-    PortAWidth              16
-    PortBWidth              16
     Use_Custom_Output_Width True
-    OutputWidthHigh         23
-    OutputWidthLow          10
-    
+    PortAWidth              14
+    PortBWidth              14
+    OutputWidthLow          13
+    Multiplier_Construction Use_Mults
 } {
     CLK /pll_0/clk_out1
     A dds_0/m_axis_data_tdata
-    P axis_zeroer_0/s_axis_tdata
     B /fsm_nmr_0/cfg_amplitude
 }
+
+cell pavel-demin:user:port_slicer slice_0 {
+  DIN_WIDTH 28 DIN_FROM 26 DIN_TO 13
+} {
+    dout axis_zeroer_0/s_axis_tdata
+    din mult_gen_0/P
+}
+
+
 ## Create axis_constant
 cell pavel-demin:user:axis_constant axis_constant_0 {
 

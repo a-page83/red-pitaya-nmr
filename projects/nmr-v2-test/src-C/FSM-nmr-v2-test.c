@@ -35,6 +35,10 @@ int main(int argc, char **argv)
   char nomFichier[64] = "test1.bin";
 
   int phase_step = atoi(argv[1]);
+  if (phase_step == NULL) {
+      printf("Veuillez fournir un argument pour phase_step\n");
+      return -1;
+  }
 
   if((fd = open("/dev/mem", O_RDWR)) < 0)
   {
