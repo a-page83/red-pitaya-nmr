@@ -12,12 +12,11 @@ NAME = led_blinker
 PART = xc7z010clg400-1
 PROC = ps7_cortexa9_0
 
-FILES_DEMIN = $(wildcard cores/cores_demin/*.v)
-FILES_PAGE  = $(wildcard cores/cores_page/*.v)
+FILES_PAGE  = $(wildcard cores_page/*.v)
+FILES_DEMIN = $(wildcard cores_demin/*.v)
 
-CORES = $(FILES_DEMIN:cores/cores_demin/%.v=cores_demin/%) \
-        $(FILES_PAGE:cores/cores_page/%.v=cores_page/%)
-
+CORES = $(FILES_DEMIN:cores_demin/%.v=cores_demin/%) \
+        $(FILES_PAGE:cores_page/%.v=cores_page/%)
 
 VIVADO = vivado -nolog -nojournal -mode batch
 XSCT = xsct
@@ -43,7 +42,7 @@ SSBL_URL = https://github.com/pavel-demin/ssbl/releases/latest/download/ssbl.elf
 RTL8188_TAR = tmp/rtl8188eu-main.tar.gz
 RTL8188_URL = https://github.com/pavel-demin/rtl8188eu/archive/main.tar.gz
 
-.PRECIOUS: tmp/cores/% tmp/%.xpr tmp/%.xsa tmp/%.bit tmp/%.fsbl/executable.elf tmp/%.tree/system-top.dts
+.PRECIOUS: tmp/cores_demin/% tmp/cores_page/% tmp/%.xpr tmp/%.xsa tmp/%.bit tmp/%.fsbl/executable.elf tmp/%.tree/system-top.dts
 
 all: tmp/$(NAME).bit boot.bin boot-rootfs.bin
 
@@ -114,15 +113,13 @@ initrd.dtb: tmp/$(NAME).tree/system-top.dts
 rootfs.dtb: tmp/$(NAME).tree/system-top.dts
 	dtc -I dts -O dtb -o $@ -i tmp/$(NAME).tree -i dts dts/rootfs.dts
 
-tmp/cores_demin/%: cores/cores_demin/%.v
-	mkdir -p $(@D)
-	$(VIVADO) -source scripts/core_demin.tcl -tclargs $* $(PART)
-	touch $@
-
-tmp/cores_page/%: cores/cores_page/%.v
+tmp/cores_page/%: cores_page/%.v
 	mkdir -p $(@D)
 	$(VIVADO) -source scripts/core_page.tcl -tclargs $* $(PART)
-	touch $@
+
+tmp/cores_demin/%: cores_demin/%.v
+	mkdir -p $(@D)
+	$(VIVADO) -source scripts/core_demin.tcl -tclargs $* $(PART)
 
 tmp/%.xpr: projects/% $(addprefix tmp/, $(CORES))
 	mkdir -p $(@D)
