@@ -3,11 +3,11 @@ set core_name [lindex $argv 0]
 
 set part_name [lindex $argv 1]
 
-file delete -force tmp/cores/cores_page/$core_name tmp/cores/cores_page/$core_name.cache tmp/cores/cores_page/$core_name.hw tmp/cores/cores_page/$core_name.ip_user_files tmp/cores/cores_page/$core_name.sim tmp/cores/cores_page/$core_name.xpr
+file delete -force tmp/cores_page/$core_name tmp/cores_page/$core_name.cache tmp/cores_page/$core_name.hw tmp/cores_page/$core_name.ip_user_files tmp/cores_page/$core_name.sim tmp/cores_page/$core_name.xpr
 
-create_project -part $part_name $core_name tmp/cores/cores_page
+create_project -part $part_name $core_name tmp/cores_page
 
-add_files -norecurse cores/cores_page/$core_name.v
+add_files -norecurse cores_page/$core_name.v
 
 set_property TOP $core_name [current_fileset]
 
@@ -16,7 +16,7 @@ set_property TOP $core_name [current_fileset]
 #   add_files -norecurse $files
 # }
 
-ipx::package_project -root_dir tmp/cores/$core_name 
+ipx::package_project -root_dir tmp/cores_page/$core_name 
 
 set core [ipx::current_core]
 
