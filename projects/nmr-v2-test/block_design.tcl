@@ -111,7 +111,7 @@ cell xilinx.com:ip:xlconcat concat_0 {
   dout led_o
 }
 
-cell page:user:fsm_nmr_acquisition_V1 fsm_nmr_0 {
+cell page:user:fsm_nmr_acquisition fsm_nmr_0 {
 } {
   clk pll_0/clk_out1
   cfg hub_0/cfg_data

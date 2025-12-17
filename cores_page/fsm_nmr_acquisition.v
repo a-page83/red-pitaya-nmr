@@ -1,19 +1,21 @@
 `timescale 1 ns / 1 ps
 
-module fsm_nmr_acquisition_V1  (
+module fsm_nmr_acquisition
+(
     input               clk,
     input      [192:0]  cfg,
     input               rst_n,
     // Control of the ACQ
-    output reg          rst_writer,
-    output reg          rst_pck,
-    output reg          rst_f,
+    output reg          rst_writer_o,
+    output reg          rst_pck_o,
+    output reg          rst_f_o,
     output [31:0]       size_o,
     output [31:0]       nb_of_sample_o,
     // Control of the GEN
-    output reg  [15:0]  cfg_amplitude,
-    output reg  [31:0]  cfg_freq,       
-    output reg          en_gen,         
+    output reg  [15:0]  cfg_amplitude_o,
+    output reg  [31:0]  cfg_freq_o,       
+    output reg          en_gen_o,        
+
     // Status outputs
     output reg [31:0]   sts, 
     output reg [5:0]    Leds 

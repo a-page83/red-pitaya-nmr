@@ -20,7 +20,7 @@ cell pavel-demin:user:axis_zeroer axis_zeroer_0 {
 } {
     aclk /pll_0/clk_out1
     M_AXIS axis_concatener_0/S_AXIS_0
-    s_axis_tvalid /fsm_nmr_0/en_gen
+    s_axis_tvalid /fsm_nmr_0/en_gen_o
 }
 
 
@@ -50,7 +50,7 @@ cell xilinx.com:ip:mult_gen mult_gen_0 {
 } {
     CLK /pll_0/clk_out1
     A dds_0/m_axis_data_tdata
-    B /fsm_nmr_0/cfg_amplitude
+    B /fsm_nmr_0/cfg_amplitude_o
 }
 
 cell pavel-demin:user:port_slicer slice_0 {
@@ -67,6 +67,6 @@ cell pavel-demin:user:axis_constant axis_constant_0 {
 } {
     aclk /pll_0/clk_out1
     M_AXIS dds_0/S_AXIS_CONFIG
-    cfg_data /fsm_nmr_0/cfg_freq
+    cfg_data /fsm_nmr_0/cfg_freq_o
 }
 
